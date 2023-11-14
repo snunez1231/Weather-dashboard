@@ -12,7 +12,7 @@ function getWeather(lat,lon) {
     
 }
 function getCoordinates(city) {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`)
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`)
       .then(response => response.json())
       .then(data=> {
         console.log(data)
