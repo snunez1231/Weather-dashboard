@@ -3,6 +3,8 @@ var cityname= document.getElementById('city-name')
 var searchform = document.getElementById('search-form')
 var cityinput= document.getElementById('city-input')
 var forecastcontainer = document.getElementById('forecast-container'); 
+var humidityElement = document.getElementById('humidity')
+var windElement = document.getElementById ('wind')
 var apiKey = "fcdb77bcab0f5e656f374a185e3665bd"
 
 function getWeather(lat,lon) {
@@ -24,6 +26,36 @@ function getCoordinates(city) {
 
     
 }
+
+function saveCityToLocalStorage(city){
+
+    var searchHistory= JSON.parse(localStorage.getItem('searchHistory')) || [];
+    searchHistory.push(city);
+
+    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+
+}
+function displaySearchHistory() {
+    var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    var historyContainer = document.getElementById('search-history-container'); 
+
+
+    historyContainer.innerHTML = '';
+
+
+    searchHistory.forEach(city => {
+        var cityButton = document.createElement('button');
+        cityButton.textContent = city;
+        cityButton.addEventListener('click', function () {
+
+            getCoordinates(city);
+        });
+
+        historyContainer.appendChild(cityButton);
+    });
+}
+
+
 //api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
 
 function getForecast(lat, lon) {
@@ -38,6 +70,9 @@ function displayWeather(data){
     console.log(data)
     cityname.textContent=data.name
     temp.textContent= data.main.temp
+    humidityElement.textContent= data.main.humidity
+    windElement.textContent= data.wind.speed
+
 }
 
 
